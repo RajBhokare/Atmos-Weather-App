@@ -1,6 +1,7 @@
 ﻿import { useState } from "react";
 import Header from "./components/Header.jsx";
 import SearchBar from "./components/SearchBar.jsx";
+import SearchResults from "./components/SearchResults.jsx";
 import EmptyState from "./components/EmptyState.jsx";
 import WeatherDashboard from "./components/WeatherDashboard.jsx";
 import { geocodeCity } from "./services/weatherApi.js";
@@ -45,12 +46,13 @@ const mockDetails = {
 
 function App() {
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = async (query) => {
     try {
       const results = await geocodeCity(query);
       console.log("Geocoding results:", results);
-      setSelectedLocation(query);
+      setSearchResults(results);
     } catch (error) {
       console.error("Geocoding error:", error);
     }
@@ -59,6 +61,10 @@ function App() {
   const handleUseLocation = () => {
     console.log("Use location requested");
     setSelectedLocation("Current Location");
+  };
+
+  const handleSelectResult = (result) => {
+    console.log("Selected result:", result);
   };
 
   return (
@@ -70,6 +76,12 @@ function App() {
           onUseLocation={handleUseLocation}
           clearSignal={null}
         />
+        {searchResults.length > 0 && (
+          <SearchResults
+            results={searchResults}
+            onSelect={handleSelectResult}
+          />
+        )}
         {selectedLocation === null ? (
           <EmptyState />
         ) : (
