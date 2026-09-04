@@ -1,4 +1,6 @@
-﻿export function transformCurrentWeather(forecastData, locationName) {
+﻿import { getConditionLabel, getIconCode } from "./weatherCodes.js";
+
+export function transformCurrentWeather(forecastData, locationName) {
   if (!forecastData || !forecastData.current || !forecastData.daily) {
     return null;
   }
@@ -9,10 +11,11 @@
   return {
     locationName: locationName || "Selected Location",
     temperature: `${Math.round(current.temperature_2m)}\u00b0`,
+    condition: getConditionLabel(current.weather_code),
     feelsLike: `${Math.round(current.apparent_temperature)}\u00b0`,
     high: `${Math.round(daily.temperature_2m_max[0])}\u00b0`,
     low: `${Math.round(daily.temperature_2m_min[0])}\u00b0`,
-    code: current.weather_code,
+    code: getIconCode(current.weather_code),
   };
 }
 
@@ -47,7 +50,7 @@ export function transformHourly(forecastData) {
       time: timeLabel,
       temperature: `${Math.round(temperature_2m[actualIdx])}\u00b0`,
       precipitation: `${precipitation_probability ? precipitation_probability[actualIdx] : 0}%`,
-      code: weather_code ? weather_code[actualIdx] : 0,
+      code: getIconCode(weather_code ? weather_code[actualIdx] : 0),
     };
   });
 }
@@ -74,7 +77,7 @@ export function transformDaily(forecastData) {
 
     result.push({
       day: dayLabel,
-      code: weather_code ? weather_code[i] : 0,
+      code: getIconCode(weather_code ? weather_code[i] : 0),
       high: `${Math.round(temperature_2m_max[i])}\u00b0`,
       low: `${Math.round(temperature_2m_min[i])}\u00b0`,
     });
