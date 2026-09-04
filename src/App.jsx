@@ -5,49 +5,17 @@ import SearchResults from "./components/SearchResults.jsx";
 import EmptyState from "./components/EmptyState.jsx";
 import WeatherDashboard from "./components/WeatherDashboard.jsx";
 import { geocodeCity, getForecast } from "./services/weatherApi.js";
-
-const mockCurrentWeather = {
-  locationName: "San Francisco",
-  temperature: 18,
-  condition: "Partly Cloudy",
-  feelsLike: 17,
-  high: 21,
-  low: 13,
-  code: "sunny",
-};
-
-const mockHourly = [
-  { time: "Now", temperature: 18, precipitation: 0, code: "sunny" },
-  { time: "12 PM", temperature: 19, precipitation: 10, code: "sunny" },
-  { time: "1 PM", temperature: 21, precipitation: 20, code: "cloudy" },
-  { time: "2 PM", temperature: 20, precipitation: 40, code: "rainy" },
-  { time: "3 PM", temperature: 19, precipitation: 60, code: "rainy" },
-  { time: "4 PM", temperature: 17, precipitation: 15, code: "cloudy" },
-];
-
-const mockDaily = [
-  { day: "Today", code: "sunny", high: 21, low: 13 },
-  { day: "Tomorrow", code: "cloudy", high: 20, low: 14 },
-  { day: "Wed", code: "rainy", high: 17, low: 11 },
-  { day: "Thu", code: "thunderstorm", high: 16, low: 10 },
-  { day: "Fri", code: "cloudy", high: 19, low: 12 },
-  { day: "Sat", code: "sunny", high: 22, low: 13 },
-  { day: "Sun", code: "clear-night", high: 23, low: 15 },
-];
-
-const mockDetails = {
-  humidity: "64%",
-  wind: "12 mph NW",
-  pressure: "1014 hPa",
-  visibility: "10 mi",
-  sunrise: "6:32 AM",
-  sunset: "7:48 PM",
-};
+import {
+  transformCurrentWeather,
+  transformHourly,
+  transformDaily,
+  transformDetails,
+} from "./utils/transformWeather.js";
 
 function App() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
-  const [_forecastData, setForecastData] = useState(null);
+  const [forecastData, setForecastData] = useState(null);
 
   useEffect(() => {
     if (!selectedLocation || selectedLocation.latitude === undefined || selectedLocation.longitude === undefined) {
@@ -91,6 +59,12 @@ function App() {
     setSearchResults([]);
   };
 
+  const locationName = selectedLocation
+    ? [selectedLocation.name, selectedLocation.admin1, selectedLocation.country]
+        .filter(Boolean)
+        .join(", ")
+    : "";
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -110,10 +84,10 @@ function App() {
           <EmptyState />
         ) : (
           <WeatherDashboard
-            currentWeather={mockCurrentWeather}
-            hourly={mockHourly}
-            daily={mockDaily}
-            details={mockDetails}
+            currentWeather={transformCurrentWeather(forecastData, locationName)}
+            hourly={transformHourly(forecastData)}
+            daily={transformDaily(forecastData)}
+            details={transformDetails(forecastData)}
           />
         )}
       </main>
