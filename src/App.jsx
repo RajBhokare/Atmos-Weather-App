@@ -60,11 +60,11 @@ function App() {
 
   const handleUseLocation = () => {
     console.log("Use location requested");
-    setSelectedLocation("Current Location");
   };
 
   const handleSelectResult = (result) => {
-    console.log("Selected result:", result);
+    setSelectedLocation(result);
+    setSearchResults([]);
   };
 
   return (
@@ -74,7 +74,7 @@ function App() {
         <SearchBar
           onSearch={handleSearch}
           onUseLocation={handleUseLocation}
-          clearSignal={null}
+          clearSignal={selectedLocation}
         />
         {searchResults.length > 0 && (
           <SearchResults
