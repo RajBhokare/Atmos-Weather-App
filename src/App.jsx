@@ -2,10 +2,7 @@ import { useState } from "react";
 import Header from "./components/Header.jsx";
 import SearchBar from "./components/SearchBar.jsx";
 import EmptyState from "./components/EmptyState.jsx";
-import CurrentWeather from "./components/CurrentWeather.jsx";
-import HourlyForecast from "./components/HourlyForecast.jsx";
-import DailyForecast from "./components/DailyForecast.jsx";
-import WeatherDetails from "./components/WeatherDetails.jsx";
+import WeatherDashboard from "./components/WeatherDashboard.jsx";
 
 const mockCurrentWeather = {
   locationName: "San Francisco",
@@ -61,7 +58,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <main className="px-4 py-6 sm:px-6 max-w-md mx-auto space-y-6">
+      <main className="max-w-3xl mx-auto px-4 py-6 sm:px-6 space-y-6">
         <SearchBar
           onSearch={handleSearch}
           onUseLocation={handleUseLocation}
@@ -70,12 +67,12 @@ function App() {
         {selectedLocation === null ? (
           <EmptyState />
         ) : (
-          <>
-            <CurrentWeather data={mockCurrentWeather} />
-            <HourlyForecast hours={mockHourly} />
-            <DailyForecast days={mockDaily} />
-            <WeatherDetails data={mockDetails} />
-          </>
+          <WeatherDashboard
+            currentWeather={mockCurrentWeather}
+            hourly={mockHourly}
+            daily={mockDaily}
+            details={mockDetails}
+          />
         )}
       </main>
     </div>
