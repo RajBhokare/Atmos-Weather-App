@@ -11,6 +11,7 @@ const mockCurrentWeather = {
   feelsLike: 17,
   high: 21,
   low: 13,
+  code: "sunny",
 };
 
 function App() {
