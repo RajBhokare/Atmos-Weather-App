@@ -4,6 +4,7 @@ import SearchBar from "./components/SearchBar.jsx";
 import EmptyState from "./components/EmptyState.jsx";
 import CurrentWeather from "./components/CurrentWeather.jsx";
 import HourlyForecast from "./components/HourlyForecast.jsx";
+import DailyForecast from "./components/DailyForecast.jsx";
 
 const mockCurrentWeather = {
   locationName: "San Francisco",
@@ -22,6 +23,16 @@ const mockHourly = [
   { time: "2 PM", temperature: 20, precipitation: 40, code: "rainy" },
   { time: "3 PM", temperature: 19, precipitation: 60, code: "rainy" },
   { time: "4 PM", temperature: 17, precipitation: 15, code: "cloudy" },
+];
+
+const mockDaily = [
+  { day: "Today", code: "sunny", high: 21, low: 13 },
+  { day: "Tomorrow", code: "cloudy", high: 20, low: 14 },
+  { day: "Wed", code: "rainy", high: 17, low: 11 },
+  { day: "Thu", code: "thunderstorm", high: 16, low: 10 },
+  { day: "Fri", code: "cloudy", high: 19, low: 12 },
+  { day: "Sat", code: "sunny", high: 22, low: 13 },
+  { day: "Sun", code: "clear-night", high: 23, low: 15 },
 ];
 
 function App() {
@@ -52,6 +63,7 @@ function App() {
           <>
             <CurrentWeather data={mockCurrentWeather} />
             <HourlyForecast hours={mockHourly} />
+            <DailyForecast days={mockDaily} />
           </>
         )}
       </main>
