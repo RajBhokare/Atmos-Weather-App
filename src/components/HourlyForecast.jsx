@@ -14,16 +14,16 @@ export default function HourlyForecast({ hours }) {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-md p-6 max-w-md w-full mx-auto">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Hourly Forecast</h2>
-      <div className="flex gap-4 overflow-x-auto pb-2">
+    <div className="bg-white border border-gray-200 rounded-md p-5 sm:p-6 max-w-md w-full mx-auto">
+      <h2 className="text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Hourly Forecast</h2>
+      <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-2">
         {hours.map((item, index) => (
           <div
             key={item.time || index}
-            className="flex flex-col items-center min-w-[70px] flex-shrink-0 text-center"
+            className="flex flex-col items-center min-w-[64px] sm:min-w-[70px] flex-shrink-0 text-center"
           >
             <span className="text-xs font-medium text-gray-500">{item.time}</span>
-            <WeatherIcon code={item.code} className="w-8 h-8 my-2 text-amber-500" />
+            <WeatherIcon code={item.code} className="w-7 h-7 sm:w-8 sm:h-8 my-2 text-amber-500" />
             <span className="text-sm font-semibold text-gray-900">
               {formatTemp(item.temperature)}
             </span>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 
 export default function SearchBar({ onSearch, onUseLocation, clearSignal }) {
   const [query, setQuery] = useState("");
@@ -23,18 +23,18 @@ export default function SearchBar({ onSearch, onUseLocation, clearSignal }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md space-y-2">
+    <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto space-y-2.5">
       <div className="flex gap-2">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for a city..."
-          className="flex-1 px-3.5 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-gray-900 placeholder-gray-400 bg-white"
+          className="flex-1 min-w-0 px-3.5 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-gray-900 placeholder-gray-400 bg-white"
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors"
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors whitespace-nowrap"
         >
           Search
         </button>
