@@ -5,6 +5,7 @@ import EmptyState from "./components/EmptyState.jsx";
 import CurrentWeather from "./components/CurrentWeather.jsx";
 import HourlyForecast from "./components/HourlyForecast.jsx";
 import DailyForecast from "./components/DailyForecast.jsx";
+import WeatherDetails from "./components/WeatherDetails.jsx";
 
 const mockCurrentWeather = {
   locationName: "San Francisco",
@@ -35,6 +36,15 @@ const mockDaily = [
   { day: "Sun", code: "clear-night", high: 23, low: 15 },
 ];
 
+const mockDetails = {
+  humidity: "64%",
+  wind: "12 mph NW",
+  pressure: "1014 hPa",
+  visibility: "10 mi",
+  sunrise: "6:32 AM",
+  sunset: "7:48 PM",
+};
+
 function App() {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
@@ -64,6 +74,7 @@ function App() {
             <CurrentWeather data={mockCurrentWeather} />
             <HourlyForecast hours={mockHourly} />
             <DailyForecast days={mockDaily} />
+            <WeatherDetails data={mockDetails} />
           </>
         )}
       </main>
