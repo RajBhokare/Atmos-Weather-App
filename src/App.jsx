@@ -1,8 +1,9 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import Header from "./components/Header.jsx";
 import SearchBar from "./components/SearchBar.jsx";
 import EmptyState from "./components/EmptyState.jsx";
 import WeatherDashboard from "./components/WeatherDashboard.jsx";
+import { geocodeCity } from "./services/weatherApi.js";
 
 const mockCurrentWeather = {
   locationName: "San Francisco",
@@ -45,9 +46,14 @@ const mockDetails = {
 function App() {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
-  const handleSearch = (query) => {
-    console.log("Search query:", query);
-    setSelectedLocation(query);
+  const handleSearch = async (query) => {
+    try {
+      const results = await geocodeCity(query);
+      console.log("Geocoding results:", results);
+      setSelectedLocation(query);
+    } catch (error) {
+      console.error("Geocoding error:", error);
+    }
   };
 
   const handleUseLocation = () => {
