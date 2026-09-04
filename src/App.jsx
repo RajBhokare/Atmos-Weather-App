@@ -1,10 +1,10 @@
-﻿import { useState } from "react";
+﻿import { useState, useEffect } from "react";
 import Header from "./components/Header.jsx";
 import SearchBar from "./components/SearchBar.jsx";
 import SearchResults from "./components/SearchResults.jsx";
 import EmptyState from "./components/EmptyState.jsx";
 import WeatherDashboard from "./components/WeatherDashboard.jsx";
-import { geocodeCity } from "./services/weatherApi.js";
+import { geocodeCity, getForecast } from "./services/weatherApi.js";
 
 const mockCurrentWeather = {
   locationName: "San Francisco",
@@ -47,6 +47,30 @@ const mockDetails = {
 function App() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
+  const [_forecastData, setForecastData] = useState(null);
+
+  useEffect(() => {
+    if (!selectedLocation || selectedLocation.latitude === undefined || selectedLocation.longitude === undefined) {
+      // oxlint-disable-next-line react/set-state-in-effect
+      setForecastData(null);
+      return;
+    }
+
+    let isMounted = true;
+    getForecast(selectedLocation.latitude, selectedLocation.longitude)
+      .then((data) => {
+        if (isMounted) {
+          setForecastData(data);
+        }
+      })
+      .catch((err) => {
+        console.error("Forecast fetch error:", err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedLocation]);
 
   const handleSearch = async (query) => {
     try {
