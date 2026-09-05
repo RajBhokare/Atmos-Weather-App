@@ -1,16 +1,52 @@
-# React + Vite
+# Atmos Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Atmos Weather App is a clean, responsive weather application built with React, Vite, and Tailwind CSS. It allows users to search for cities or use their device's geolocation to view current weather conditions, an 8-hour forecast, a 7-day forecast, and environmental metrics such as humidity, wind speed, pressure, visibility, sunrise, and sunset times.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Frontend Library**: React 19 (JavaScript)
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS v4
+- **API**: Open-Meteo Weather & Geocoding API (free, no API key required)
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
 
-## Expanding the Oxlint configuration
+- Node.js (v18 or higher recommended)
+- npm
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+### Installation & Setup
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Build for production:
+   ```bash
+   npm run build
+   ```
+
+4. Preview the production build:
+   ```bash
+   npm run preview
+   ```
+
+> **Note**: No API key is required to run this application. Weather and geocoding data are fetched directly from Open-Meteo's open-access endpoints.
+
+## Project Structure
+
+```
+src/
++-- components/    # UI components (Header, SearchBar, SearchResults, WeatherDashboard, etc.)
++-- services/      # API integration functions (weatherApi.js)
++-- hooks/         # Custom React hooks
++-- utils/         # Helper functions for data transformation, geolocation, and weather codes
+```
+
