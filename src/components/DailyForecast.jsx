@@ -10,7 +10,7 @@ export default function DailyForecast({ days }) {
 
   return (
     <div className="bg-white border border-gray-200 rounded-md p-5 sm:p-6 max-w-md w-full mx-auto">
-      <h2 className="text-lg font-semibold text-gray-900 mb-2">7-Day Forecast</h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-3 sm:mb-4">7-Day Forecast</h2>
       <div className="divide-y divide-gray-100">
         {days.map((item, index) => (
           <div

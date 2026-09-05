@@ -58,7 +58,6 @@ function App() {
     setSearchError(null);
     try {
       const results = await geocodeCity(query);
-      console.log("Geocoding results:", results);
       if (results && results.length > 0) {
         setSearchError(null);
         setSearchResults(results);
