@@ -1,4 +1,12 @@
-﻿export default function SearchResults({ results, onSelect }) {
+﻿export default function SearchResults({ results, onSelect, isSearching }) {
+  if (isSearching) {
+    return (
+      <div className="bg-white border border-gray-200 rounded-md shadow-sm max-w-md w-full mx-auto px-4 py-3 text-center">
+        <p className="text-sm font-medium text-gray-500 animate-pulse">Searching...</p>
+      </div>
+    );
+  }
+
   if (!results || results.length === 0) return null;
 
   return (

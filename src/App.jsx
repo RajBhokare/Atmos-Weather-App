@@ -3,6 +3,7 @@ import Header from "./components/Header.jsx";
 import SearchBar from "./components/SearchBar.jsx";
 import SearchResults from "./components/SearchResults.jsx";
 import EmptyState from "./components/EmptyState.jsx";
+import LoadingIndicator from "./components/LoadingIndicator.jsx";
 import WeatherDashboard from "./components/WeatherDashboard.jsx";
 import { geocodeCity, getForecast } from "./services/weatherApi.js";
 import {
@@ -16,6 +17,8 @@ function App() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [forecastData, setForecastData] = useState(null);
+  const [isLoadingWeather, setIsLoadingWeather] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     if (!selectedLocation || selectedLocation.latitude === undefined || selectedLocation.longitude === undefined) {
@@ -25,6 +28,8 @@ function App() {
     }
 
     let isMounted = true;
+    setIsLoadingWeather(true);
+
     getForecast(selectedLocation.latitude, selectedLocation.longitude)
       .then((data) => {
         if (isMounted) {
@@ -33,6 +38,11 @@ function App() {
       })
       .catch((err) => {
         console.error("Forecast fetch error:", err);
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsLoadingWeather(false);
+        }
       });
 
     return () => {
@@ -41,12 +51,15 @@ function App() {
   }, [selectedLocation]);
 
   const handleSearch = async (query) => {
+    setIsSearching(true);
     try {
       const results = await geocodeCity(query);
       console.log("Geocoding results:", results);
       setSearchResults(results);
     } catch (error) {
       console.error("Geocoding error:", error);
+    } finally {
+      setIsSearching(false);
     }
   };
 
@@ -74,14 +87,17 @@ function App() {
           onUseLocation={handleUseLocation}
           clearSignal={selectedLocation}
         />
-        {searchResults.length > 0 && (
+        {(isSearching || searchResults.length > 0) && (
           <SearchResults
             results={searchResults}
             onSelect={handleSelectResult}
+            isSearching={isSearching}
           />
         )}
         {selectedLocation === null ? (
           <EmptyState />
+        ) : isLoadingWeather ? (
+          <LoadingIndicator />
         ) : (
           <WeatherDashboard
             currentWeather={transformCurrentWeather(forecastData, locationName)}
