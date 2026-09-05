@@ -109,21 +109,21 @@ function App() {
     : "";
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-sky-500 selection:text-white pb-12">
       <Header />
-      <main className="max-w-3xl mx-auto px-4 py-6 sm:px-6 space-y-6">
+      <main className="max-w-6xl mx-auto px-4 py-6 sm:px-6 space-y-6">
         <SearchBar
           onSearch={handleSearch}
           onUseLocation={handleUseLocation}
           clearSignal={selectedLocation}
         />
         {searchError && (
-          <p className="text-xs text-red-700 text-center max-w-md mx-auto">
+          <p className="text-xs text-rose-400 font-medium text-center bg-rose-500/10 border border-rose-500/20 py-2 px-3 rounded-lg max-w-xl mx-auto">
             {searchError}
           </p>
         )}
         {locationError && (
-          <p className="text-xs text-red-700 text-center max-w-md mx-auto">
+          <p className="text-xs text-rose-400 font-medium text-center bg-rose-500/10 border border-rose-500/20 py-2 px-3 rounded-lg max-w-xl mx-auto">
             {locationError}
           </p>
         )}

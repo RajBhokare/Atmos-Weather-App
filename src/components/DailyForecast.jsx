@@ -9,25 +9,25 @@ export default function DailyForecast({ days }) {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-md p-5 sm:p-6 max-w-md w-full mx-auto">
-      <h2 className="text-lg font-semibold text-gray-900 mb-3 sm:mb-4">7-Day Forecast</h2>
-      <div className="divide-y divide-gray-100">
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 w-full shadow-sm">
+      <h2 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">7-Day Forecast</h2>
+      <div className="divide-y divide-slate-800">
         {days.map((item, index) => (
           <div
             key={item.day || index}
-            className="flex items-center justify-between py-2.5 sm:py-3"
+            className="flex items-center justify-between py-2.5 px-1"
           >
-            <span className="w-20 sm:w-24 text-sm font-medium text-gray-900 truncate">
+            <span className="w-24 text-xs font-medium text-slate-200 truncate">
               {item.day}
             </span>
-            <div className="flex justify-center flex-1">
-              <WeatherIcon code={item.code} className="w-6 h-6 text-amber-500" />
+            <div className="flex justify-center flex-1 text-amber-400">
+              <WeatherIcon code={item.code} className="w-5 h-5" />
             </div>
-            <div className="w-20 sm:w-24 text-right space-x-2">
-              <span className="text-sm font-medium text-gray-900">
+            <div className="w-24 text-right flex items-center justify-end gap-2 text-xs">
+              <span className="font-bold text-slate-100">
                 {formatTemp(item.high)}
               </span>
-              <span className="text-sm text-gray-400">
+              <span className="font-medium text-slate-400">
                 {formatTemp(item.low)}
               </span>
             </div>

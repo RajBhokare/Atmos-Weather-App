@@ -1,8 +1,8 @@
 ﻿export default function SearchResults({ results, onSelect, isSearching }) {
   if (isSearching) {
     return (
-      <div className="bg-white border border-gray-200 rounded-md shadow-sm max-w-md w-full mx-auto px-4 py-3 text-center">
-        <p className="text-sm font-medium text-gray-500 animate-pulse">Searching...</p>
+      <div className="bg-slate-900 border border-slate-700/80 rounded-lg shadow-sm max-w-xl w-full mx-auto px-4 py-3 text-center">
+        <p className="text-xs font-medium text-slate-400 animate-pulse">Searching locations...</p>
       </div>
     );
   }
@@ -10,7 +10,7 @@
   if (!results || results.length === 0) return null;
 
   return (
-    <div className="bg-white border border-gray-200 rounded-md shadow-sm divide-y divide-gray-100 max-w-md w-full mx-auto overflow-hidden">
+    <div className="bg-slate-900 border border-slate-700/80 rounded-lg shadow-md divide-y divide-slate-800 max-w-xl w-full mx-auto overflow-hidden">
       {results.map((item, index) => {
         const locationText = [item.name, item.admin1, item.country]
           .filter(Boolean)
@@ -21,9 +21,10 @@
             key={item.id || `${item.latitude}-${item.longitude}-${index}`}
             type="button"
             onClick={() => onSelect && onSelect(item)}
-            className="w-full text-left px-4 py-3 hover:bg-gray-50 text-sm text-gray-800 transition-colors flex items-center justify-between focus:outline-none focus:bg-gray-50"
+            className="w-full text-left px-4 py-2.5 hover:bg-slate-800/80 text-sm text-slate-200 transition-colors flex items-center justify-between focus:outline-none focus:bg-slate-800"
           >
-            <span className="font-medium text-gray-900">{locationText}</span>
+            <span className="font-medium">{locationText}</span>
+            <span className="text-xs text-sky-400 font-medium">Select</span>
           </button>
         );
       })}

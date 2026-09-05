@@ -13,13 +13,13 @@
   ];
 
   return (
-    <div className="bg-white border border-gray-200 rounded-md p-5 sm:p-6 max-w-md w-full mx-auto">
-      <h2 className="text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Details</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 w-full h-full shadow-sm flex flex-col justify-between">
+      <h2 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4">Details</h2>
+      <div className="grid grid-cols-2 gap-3 flex-1">
         {detailsList.map((item) => (
-          <div key={item.label} className="bg-gray-50 p-3 rounded-md">
-            <div className="text-xs text-gray-500 font-medium">{item.label}</div>
-            <div className="text-sm font-semibold text-gray-900 mt-1 truncate">
+          <div key={item.label} className="bg-slate-800/50 border border-slate-800 p-3 rounded-lg flex flex-col justify-center">
+            <div className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">{item.label}</div>
+            <div className="text-sm font-semibold text-slate-100 mt-1 truncate">
               {item.value !== undefined && item.value !== null ? item.value : "--"}
             </div>
           </div>

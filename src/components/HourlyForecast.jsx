@@ -14,20 +14,26 @@ export default function HourlyForecast({ hours }) {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-md p-5 sm:p-6 max-w-md w-full mx-auto">
-      <h2 className="text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Hourly Forecast</h2>
-      <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-2">
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 w-full shadow-sm">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xs font-bold text-slate-300 uppercase tracking-wider">Hourly Forecast</h2>
+        <span className="text-[11px] text-slate-400 font-medium">8 Hours</span>
+      </div>
+
+      <div className="flex gap-3 overflow-x-auto pb-2">
         {hours.map((item, index) => (
           <div
             key={item.time || index}
-            className="flex flex-col items-center min-w-[64px] sm:min-w-[70px] flex-shrink-0 text-center"
+            className="flex flex-col items-center flex-1 min-w-[72px] flex-shrink-0 text-center py-2.5 px-2 rounded-lg bg-slate-800/50 border border-slate-700/50"
           >
-            <span className="text-xs font-medium text-gray-500">{item.time}</span>
-            <WeatherIcon code={item.code} className="w-7 h-7 sm:w-8 sm:h-8 my-2 text-amber-500" />
-            <span className="text-sm font-semibold text-gray-900">
+            <span className="text-xs font-medium text-slate-400">{item.time}</span>
+            <div className="my-2 text-amber-400">
+              <WeatherIcon code={item.code} className="w-6 h-6" />
+            </div>
+            <span className="text-xs font-bold text-slate-100">
               {formatTemp(item.temperature)}
             </span>
-            <span className="text-xs text-blue-500 font-medium mt-1">
+            <span className="text-[10px] text-sky-400 font-medium mt-1">
               {formatPrecip(item.precipitation)}
             </span>
           </div>
