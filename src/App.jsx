@@ -7,6 +7,7 @@ import LoadingIndicator from "./components/LoadingIndicator.jsx";
 import WeatherDashboard from "./components/WeatherDashboard.jsx";
 import { geocodeCity, getForecast } from "./services/weatherApi.js";
 import { getCurrentPosition } from "./utils/geolocation.js";
+import { useDebounce } from "./hooks/useDebounce.js";
 import {
   transformCurrentWeather,
   transformHourly,
@@ -16,6 +17,8 @@ import {
 
 function App() {
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedQuery = useDebounce(searchQuery, 300);
   const [searchResults, setSearchResults] = useState([]);
   const [forecastData, setForecastData] = useState(null);
   const [isLoadingWeather, setIsLoadingWeather] = useState(false);
@@ -53,11 +56,56 @@ function App() {
     };
   }, [selectedLocation]);
 
+  useEffect(() => {
+    const trimmed = debouncedQuery.trim();
+
+    if (trimmed.length < 2) {
+      // oxlint-disable-next-line react/set-state-in-effect
+      setSearchResults([]);
+      setSearchError(null);
+      setIsSearching(false);
+      return;
+    }
+
+    let isCurrent = true;
+    setIsSearching(true);
+    setSearchError(null);
+
+    geocodeCity(trimmed)
+      .then((results) => {
+        if (!isCurrent) return;
+        if (results && results.length > 0) {
+          setSearchError(null);
+          setSearchResults(results);
+        } else {
+          setSearchError("No results found for that location.");
+          setSearchResults([]);
+        }
+      })
+      .catch((error) => {
+        if (!isCurrent) return;
+        console.error("Geocoding error:", error);
+        setSearchError("Something went wrong while searching. Please try again.");
+        setSearchResults([]);
+      })
+      .finally(() => {
+        if (isCurrent) {
+          setIsSearching(false);
+        }
+      });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [debouncedQuery]);
+
   const handleSearch = async (query) => {
+    const trimmed = query.trim();
+    if (trimmed.length < 2) return;
     setIsSearching(true);
     setSearchError(null);
     try {
-      const results = await geocodeCity(query);
+      const results = await geocodeCity(trimmed);
       if (results && results.length > 0) {
         setSearchError(null);
         setSearchResults(results);
@@ -76,6 +124,7 @@ function App() {
 
   const handleUseLocation = async () => {
     setLocationError(null);
+    setSearchQuery("");
     try {
       const coords = await getCurrentPosition();
       setSelectedLocation({
@@ -97,6 +146,7 @@ function App() {
 
   const handleSelectResult = (result) => {
     setSelectedLocation(result);
+    setSearchQuery("");
     setSearchResults([]);
     setSearchError(null);
     setLocationError(null);
@@ -109,21 +159,22 @@ function App() {
     : "";
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-sky-500 selection:text-white pb-12">
+    <div className="min-h-screen bg-slate-900 text-slate-100 selection:bg-sky-600 selection:text-white pb-12">
       <Header />
       <main className="max-w-6xl mx-auto px-4 py-6 sm:px-6 space-y-6">
         <SearchBar
+          value={searchQuery}
+          onChange={setSearchQuery}
           onSearch={handleSearch}
           onUseLocation={handleUseLocation}
-          clearSignal={selectedLocation}
         />
         {searchError && (
-          <p className="text-xs text-rose-400 font-medium text-center bg-rose-500/10 border border-rose-500/20 py-2 px-3 rounded-lg max-w-xl mx-auto">
+          <p className="text-xs text-rose-400 font-medium text-center bg-rose-950/40 border border-rose-800 py-2 px-3 rounded-lg max-w-xl mx-auto">
             {searchError}
           </p>
         )}
         {locationError && (
-          <p className="text-xs text-rose-400 font-medium text-center bg-rose-500/10 border border-rose-500/20 py-2 px-3 rounded-lg max-w-xl mx-auto">
+          <p className="text-xs text-rose-400 font-medium text-center bg-rose-950/40 border border-rose-800 py-2 px-3 rounded-lg max-w-xl mx-auto">
             {locationError}
           </p>
         )}
@@ -152,4 +203,3 @@ function App() {
 }
 
 export default App;
-
