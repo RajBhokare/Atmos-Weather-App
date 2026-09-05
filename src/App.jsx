@@ -6,6 +6,7 @@ import EmptyState from "./components/EmptyState.jsx";
 import LoadingIndicator from "./components/LoadingIndicator.jsx";
 import WeatherDashboard from "./components/WeatherDashboard.jsx";
 import { geocodeCity, getForecast } from "./services/weatherApi.js";
+import { getCurrentPosition } from "./utils/geolocation.js";
 import {
   transformCurrentWeather,
   transformHourly,
@@ -73,8 +74,20 @@ function App() {
     }
   };
 
-  const handleUseLocation = () => {
-    console.log("Use location requested");
+  const handleUseLocation = async () => {
+    try {
+      setSearchError(null);
+      const coords = await getCurrentPosition();
+      setSelectedLocation({
+        name: "Current Location",
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      });
+      setSearchResults([]);
+    } catch (error) {
+      console.error("Geolocation error:", error);
+      setSearchError("Unable to retrieve your current location.");
+    }
   };
 
   const handleSelectResult = (result) => {
