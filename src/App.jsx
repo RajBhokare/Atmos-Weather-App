@@ -19,6 +19,7 @@ function App() {
   const [forecastData, setForecastData] = useState(null);
   const [isLoadingWeather, setIsLoadingWeather] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [searchError, setSearchError] = useState(null);
 
   useEffect(() => {
     if (!selectedLocation || selectedLocation.latitude === undefined || selectedLocation.longitude === undefined) {
@@ -52,12 +53,21 @@ function App() {
 
   const handleSearch = async (query) => {
     setIsSearching(true);
+    setSearchError(null);
     try {
       const results = await geocodeCity(query);
       console.log("Geocoding results:", results);
-      setSearchResults(results);
+      if (results && results.length > 0) {
+        setSearchError(null);
+        setSearchResults(results);
+      } else {
+        setSearchError("No results found for that location.");
+        setSearchResults([]);
+      }
     } catch (error) {
       console.error("Geocoding error:", error);
+      setSearchError("Something went wrong while searching. Please try again.");
+      setSearchResults([]);
     } finally {
       setIsSearching(false);
     }
@@ -70,6 +80,7 @@ function App() {
   const handleSelectResult = (result) => {
     setSelectedLocation(result);
     setSearchResults([]);
+    setSearchError(null);
   };
 
   const locationName = selectedLocation
@@ -87,6 +98,11 @@ function App() {
           onUseLocation={handleUseLocation}
           clearSignal={selectedLocation}
         />
+        {searchError && (
+          <p className="text-xs text-red-700 text-center max-w-md mx-auto">
+            {searchError}
+          </p>
+        )}
         {(isSearching || searchResults.length > 0) && (
           <SearchResults
             results={searchResults}
